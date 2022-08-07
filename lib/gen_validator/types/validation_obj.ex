@@ -14,7 +14,8 @@ defmodule GenValidator.Types.ValidationObj do
     |> Enum.reduce({:pending, %{}}, &concat(&2, &1))
   end
 
-  defp concat({:pending, empty}, r), do: r
+  # concat / append / add …
+  defp concat({:pending, _empty}, r), do: r
 
   defp concat({:valid, _data}, {:invalid, r_errs_obj}),
     do: {:invalid, r_errs_obj}
@@ -30,36 +31,34 @@ defmodule GenValidator.Types.ValidationObj do
 
   defimpl Collectable do
     def into(error_list) do
-      collector_fun = fn
-        %ValidationObj{result: result, data: acc} = validation_list_acc, {:cont, elem} ->
-          case elem do
-            {:invalid, validation_result} ->
-              if result in [:pending, :valid] do
-                of({:invalid, [validation_result]})
-              else
-                of({:invalid, [validation_result | acc]})
-              end
+      {error_list, &collect/2}
+    end
 
-            {:valid, current} ->
-              if result == :pending do
-                of({:valid, current})
-              else
-                validation_list_acc
-              end
+    defp collect(%ValidationObj{result: result, data: acc} = validation_list_acc, {:cont, elem}) do
+      case elem do
+        {:invalid, validation_result} ->
+          if result in [:pending, :valid] do
+            of({:invalid, [validation_result]})
+          else
+            of({:invalid, [validation_result | acc]})
           end
 
-        %ValidationObj{result: :valid, data: {key, map}}, :done ->
-          {:valid, %{key => map}}
-
-        %ValidationObj{result: :invalid, data: acc}, :done ->
-          {:invalid, to_map(acc)}
-
-        _validation_list_acc, :halt ->
-          :ok
+        {:valid, current} ->
+          if result == :pending do
+            of({:valid, current})
+          else
+            validation_list_acc
+          end
       end
-
-      {error_list, collector_fun}
     end
+
+    defp collect(%ValidationObj{result: :valid, data: {key, map}}, :done),
+      do: {:valid, %{key => map}}
+
+    defp collect(%ValidationObj{result: :invalid, data: acc}, :done),
+      do: {:invalid, to_map(acc)}
+
+    defp collect(_validation_list_acc, :halt), do: :ok
 
     defp to_map(descriptors) do
       Enum.reduce(descriptors, %{}, &merge/2)

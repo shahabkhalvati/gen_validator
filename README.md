@@ -2,20 +2,9 @@
 
 **TODO: Add description**
 
-## Installation
+For now, maybe check the tests (from simple to complex):
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `gen_validator` to your list of dependencies in `mix.exs`:
-
-```elixir
-def deps do
-  [
-    {:gen_validator, "~> 0.1.0"}
-  ]
-end
-```
-
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at <https://hexdocs.pm/gen_validator>.
-
+- `test/gen_validator/validation_test.exs`
+- `test/gen_validator/types/validation_list_test.exs`
+- `test/gen_validator/types/validation_obj_test.exs`
+- `test/gen_validator_test.exs`
