@@ -2,6 +2,8 @@
 
 **TODO: Add description**
 
+The main idea is to separate predicates, validation rules, how the validaation rules are applied, and how the validation result is computed.
+
 For now, maybe check the tests (from simple to complex):
 
 - `test/gen_validator/validation_test.exs`
