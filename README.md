@@ -6,7 +6,7 @@ The main idea is to separate predicates, validation rules, how the validation ru
 
 For now, maybe check the tests (from simple to complex):
 
-- ./test/gen_validator/validation_test.exs
-- ./test/gen_validator/types/validation_list_test.exs
-- ./test/gen_validator/types/validation_obj_test.exs
-- ./test/gen_validator_test.exs
+- [validation_test.exs](./test/gen_validator/validation_test.exs)
+- [validation_list_test.exs](./test/gen_validator/types/validation_list_test.exs)
+- [validation_obj_test.exs](./test/gen_validator/types/validation_obj_test.exs)
+- [gen_validator_test.exs](./test/gen_validator_test.exs)
